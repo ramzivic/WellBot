@@ -1,0 +1,44 @@
+@inherits LayoutComponentBase
+
+@inject WellBot.Admin.Services.SimpleLocalizer Loc
+@using System.Globalization
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4 d-flex align-items-center">
+            <AuthorizeView>
+                <Authorized>
+                    <span class="me-3">Bienvenue, @context.User.Identity?.Name</span>
+                    <a href="/auth/logout" class="btn btn-sm btn-outline-danger me-3">@Loc["Logout"]</a>
+                </Authorized>
+            </AuthorizeView>
+            
+            <div class="dropdown me-3">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    @CultureInfo.CurrentCulture.TwoLetterISOLanguageName.ToUpper()
+                </button>
+                <ul class="dropdown-menu" data-enhance-nav="false">
+                    <li><a class="dropdown-item" href="/culture/set?culture=fr&redirectUri=/">FR</a></li>
+                    <li><a class="dropdown-item" href="/culture/set?culture=en&redirectUri=/">EN</a></li>
+                    <li><a class="dropdown-item" href="/culture/set?culture=ar&redirectUri=/">AR</a></li>
+                </ul>
+            </div>
+
+            <a href="swagger" target="_blank">API</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

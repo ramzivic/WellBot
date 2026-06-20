@@ -1,0 +1,47 @@
+:root {
+    --wellbot-primary: #4A90D9;
+    --wellbot-secondary: #636E72;
+    --wellbot-bg: #F8F9FA;
+}
+
+body {
+    background-color: var(--wellbot-bg);
+}
+
+.sidebar {
+    background-image: linear-gradient(180deg, #2D3436 0%, #4A90D9 100%);
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white !important;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-radius: 12px;
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid #F1F3F5;
+    font-weight: bold;
+}
+
+.display-6 {
+    font-weight: bold;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 5px;
+}
+
+.progress-bar {
+    background-color: var(--wellbot-primary);
+}

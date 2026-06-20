@@ -1,0 +1,49 @@
+@page "/login"
+@layout WellBot.Admin.Components.Layout.EmptyLayout
+@attribute [AllowAnonymous]
+@inject NavigationManager NavManager
+@inject WellBot.Admin.Services.SimpleLocalizer Loc
+
+<PageTitle>Login - WellBot Admin</PageTitle>
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
+        <div class="text-center mb-4">
+            <h2 class="text-primary">WellBot Admin</h2>
+            <p class="text-muted">@Loc["PleaseLogin"]</p>
+        </div>
+
+        @if (ShowError)
+        {
+            <div class="alert alert-danger" role="alert">
+                @(ErrorParam == "2" ? Loc["AccessDenied"] : Loc["InvalidCredentials"])
+            </div>
+        }
+
+        <form method="post" action="/auth/login">
+            <input type="hidden" name="returnUrl" value="@ReturnUrl" />
+            
+            <div class="mb-3">
+                <label class="form-label">@Loc["Username"]</label>
+                <input type="text" name="username" class="form-control" required autofocus />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">@Loc["Password"]</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">@Loc["Login"]</button>
+        </form>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public string? ReturnUrl { get; set; }
+
+    [SupplyParameterFromQuery(Name = "error")]
+    public string? ErrorParam { get; set; }
+
+    private bool ShowError => !string.IsNullOrEmpty(ErrorParam);
+}

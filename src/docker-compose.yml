@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  wellbot-admin:
+    build:
+      context: .
+      dockerfile: WellBot.Admin/Dockerfile
+    container_name: wellbot_admin
+    ports:
+      - "5191:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Override the connection string to store the database in the mounted volume
+      - ConnectionStrings__DefaultConnection=Data Source=data/wellbot.db
+    volumes:
+      - wellbot-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  wellbot-data:
+    name: wellbot_admin_data

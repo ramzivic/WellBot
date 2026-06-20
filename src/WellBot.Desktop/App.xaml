@@ -1,0 +1,10 @@
+<Application x:Class="WellBot.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WellBot.Desktop">
+    <Application.Resources>
+        <Color x:Key="OoredooRedColor">#ED1C24</Color>
+        <SolidColorBrush x:Key="OoredooRedBrush" Color="{StaticResource OoredooRedColor}" />
+        <SolidColorBrush x:Key="OoredooDarkRedBrush" Color="#C1121C" />
+    </Application.Resources>
+</Application>

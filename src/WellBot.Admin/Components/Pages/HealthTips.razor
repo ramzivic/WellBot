@@ -1,0 +1,277 @@
+@page "/health-tips"
+@using WellBot.Admin.Data
+@using Microsoft.EntityFrameworkCore
+@using WellBot.Admin.Entities
+@inject AppDbContext Db
+@inject IJSRuntime JsRuntime
+@inject WellBot.Admin.Services.SimpleLocalizer Loc
+
+<PageTitle>@Loc["HealthTips"]</PageTitle>
+
+<ErrorBoundary>
+    <ChildContent>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>@Loc["HealthTips"]</h1>
+            <button class="btn btn-primary" @onclick="AddNew">
+                <i class="bi bi-plus-circle"></i> @Loc["AddTip"]
+            </button>
+        </div>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger">
+                <strong>@Loc["Error"]:</strong> @errorMessage
+            </div>
+        }
+
+        @if (groups == null)
+        {
+            <p><em>@Loc["Loading"]</em></p>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var group in groups)
+                {
+                    <div class="col">
+                        <div class="card h-100 @(group.ConfigFr.IsActive ? "" : "opacity-50")">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">@group.ConfigFr.Title</h5>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                           @bind="group.ConfigFr.IsActive" @bind:after="@(() => Save(group))">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="small text-muted">@group.ConfigFr.Message</p>
+                                <hr />
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex gap-1">
+                                        @if (group.ConfigFr.Id != 0) { <span class="badge bg-primary">FR</span> }
+                                        @if (group.ConfigEn.Id != 0) { <span class="badge bg-success">EN</span> }
+                                        @if (group.ConfigAr.Id != 0) { <span class="badge bg-warning text-dark">AR</span> }
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(group.ConfigFr.Category))
+                                    {
+                                        <span class="badge bg-light text-secondary border">@group.ConfigFr.Category</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 d-flex gap-2">
+                                <button class="btn btn-sm btn-primary flex-grow-1" @onclick="() => Edit(group)">
+                                    <i class="bi bi-gear"></i> @Loc["Configure"]
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" @onclick="() => Delete(group)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (showModal && editingGroup != null)
+        {
+            <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5)">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">@(isNew ? Loc["AddTip"] : Loc["Configure"])</h5>
+                            <button type="button" class="btn-close" @onclick="() => showModal = false"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">@Loc["Category"]</label>
+                                <input type="text" class="form-control" @bind="editingGroup.ConfigFr.Category" />
+                            </div>
+
+                            <ul class="nav nav-tabs mb-3">
+                                <li class="nav-item">
+                                    <button class="nav-link @(activeTab == "fr" ? "active" : "")" @onclick="@(() => activeTab = "fr")">FR</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link @(activeTab == "en" ? "active" : "")" @onclick="@(() => activeTab = "en")">EN</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link @(activeTab == "ar" ? "active" : "")" @onclick="@(() => activeTab = "ar")">AR</button>
+                                </li>
+                            </ul>
+
+                            @if (activeTab == "fr")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">@Loc["TitleFR"]</label>
+                                    <input type="text" class="form-control" @bind="editingGroup.ConfigFr.Title" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">@Loc["MessageFR"]</label>
+                                    <textarea class="form-control" rows="3" @bind="editingGroup.ConfigFr.Message"></textarea>
+                                </div>
+                            }
+                            else if (activeTab == "en")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">@Loc["TitleEN"]</label>
+                                    <input type="text" class="form-control" @bind="editingGroup.ConfigEn.Title" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">@Loc["MessageEN"]</label>
+                                    <textarea class="form-control" rows="3" @bind="editingGroup.ConfigEn.Message"></textarea>
+                                </div>
+                            }
+                            else if (activeTab == "ar")
+                            {
+                                <div class="mb-3" dir="rtl">
+                                    <label class="form-label">@Loc["TitleAR"]</label>
+                                    <input type="text" class="form-control" @bind="editingGroup.ConfigAr.Title" />
+                                </div>
+                                <div class="mb-3" dir="rtl">
+                                    <label class="form-label">@Loc["MessageAR"]</label>
+                                    <textarea class="form-control" rows="3" @bind="editingGroup.ConfigAr.Message"></textarea>
+                                </div>
+                            }
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="() => showModal = false">@Loc["Cancel"]</button>
+                            <button type="button" class="btn btn-primary" @onclick="() => Save(editingGroup)">@Loc["Save"]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </ChildContent>
+    <ErrorContent Context="exception">
+        <div class="alert alert-danger mt-4">
+            <h4 class="alert-heading">Rendering Error</h4>
+            <p>@exception.Message</p>
+            <pre>@exception.StackTrace</pre>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    private List<HealthTipGroup>? groups;
+    private HealthTipGroup? editingGroup;
+    private bool showModal = false;
+    private bool isNew = false;
+    private string activeTab = "fr";
+    private string? errorMessage;
+
+    class HealthTipGroup
+    {
+        public string GroupId { get; set; } = string.Empty;
+        public HealthTipEntity ConfigFr { get; set; } = new();
+        public HealthTipEntity ConfigEn { get; set; } = new();
+        public HealthTipEntity ConfigAr { get; set; } = new();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTips();
+    }
+
+    private async Task LoadTips()
+    {
+        try
+        {
+            var all = await Db.HealthTips.OrderByDescending(t => t.UpdatedAt).ToListAsync();
+            groups = all
+                .GroupBy(t => t.GroupId)
+                .Select(g =>
+                {
+                    var fr = g.FirstOrDefault(c => c.Language == "fr") ?? new HealthTipEntity { GroupId = g.Key, Language = "fr" };
+                    var en = g.FirstOrDefault(c => c.Language == "en") ?? new HealthTipEntity { GroupId = g.Key, Language = "en" };
+                    var ar = g.FirstOrDefault(c => c.Language == "ar") ?? new HealthTipEntity { GroupId = g.Key, Language = "ar" };
+
+                    return new HealthTipGroup
+                    {
+                        GroupId = g.Key,
+                        ConfigFr = fr,
+                        ConfigEn = en,
+                        ConfigAr = ar
+                    };
+                })
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "LoadTips error: " + ex.ToString();
+        }
+    }
+
+    private void AddNew()
+    {
+        var groupId = Guid.NewGuid().ToString("N");
+        editingGroup = new HealthTipGroup
+        {
+            GroupId = groupId,
+            ConfigFr = new HealthTipEntity { GroupId = groupId, Language = "fr", IsActive = true },
+            ConfigEn = new HealthTipEntity { GroupId = groupId, Language = "en", IsActive = true },
+            ConfigAr = new HealthTipEntity { GroupId = groupId, Language = "ar", IsActive = true }
+        };
+        isNew = true;
+        activeTab = "fr";
+        showModal = true;
+    }
+
+    private void Edit(HealthTipGroup group)
+    {
+        editingGroup = group;
+        isNew = false;
+        activeTab = "fr";
+        showModal = true;
+    }
+
+    private async Task Save(HealthTipGroup group)
+    {
+        try
+        {
+            errorMessage = null;
+            var now = DateTime.UtcNow;
+
+            var entities = new[] { group.ConfigFr, group.ConfigEn, group.ConfigAr };
+            foreach (var entity in entities)
+            {
+                entity.GroupId = group.GroupId;
+                entity.IsActive = group.ConfigFr.IsActive;
+                entity.Category = group.ConfigFr.Category;
+                entity.UpdatedAt = now;
+
+                if (entity.Id == 0)
+                {
+                    Db.HealthTips.Add(entity);
+                }
+                else
+                {
+                    Db.Entry(entity).State = EntityState.Modified;
+                }
+            }
+
+            await Db.SaveChangesAsync();
+            showModal = false;
+            await LoadTips();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Save error: " + ex.ToString();
+        }
+    }
+
+    private async Task Delete(HealthTipGroup group)
+    {
+        if (await JsRuntime.InvokeAsync<bool>("confirm", Loc["DeleteConfirm"]))
+        {
+            var entities = new[] { group.ConfigFr, group.ConfigEn, group.ConfigAr };
+            foreach (var entity in entities)
+            {
+                if (entity.Id != 0)
+                {
+                    Db.HealthTips.Remove(entity);
+                }
+            }
+            await Db.SaveChangesAsync();
+            await LoadTips();
+        }
+    }
+}

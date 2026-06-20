@@ -1,0 +1,346 @@
+<Window x:Class="WellBot.Desktop.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WellBot — Paramètres" 
+        Height="700" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#1E1E2E"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display">
+    <Window.Resources>
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="Margin" Value="0,16,0,8"/>
+        </Style>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#A6ADC8"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="FieldInput" TargetType="TextBox">
+            <Setter Property="Background" Value="#313244"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="#45475A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style x:Key="FieldCombo" TargetType="ComboBox">
+            <Setter Property="Background" Value="#313244"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="#45475A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Foreground" Value="#1E1E2E"/>
+                        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+                        <Setter Property="UseLayoutRounding" Value="True"/>
+                        <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#89B4FA"/>
+            <Setter Property="Foreground" Value="#1E1E2E"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#45475A"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ScheduleInput" TargetType="TextBox">
+            <Setter Property="Background" Value="#313244"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="#45475A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="60"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock x:Name="TxtSettingsTitle" Grid.Row="0" Text="⚙  Paramètres" FontSize="20" FontWeight="Bold" Foreground="#CDD6F4" Margin="0,0,0,4"/>
+
+        <!-- Connection Status Banner -->
+        <Border x:Name="StatusBanner" Grid.Row="1" CornerRadius="6" Padding="10,6" Margin="0,4,0,4" Cursor="Hand" MouseLeftButtonUp="StatusBanner_Click">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Ellipse x:Name="StatusDot" Grid.Column="0" Width="10" Height="10" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                <TextBlock x:Name="TxtStatusMessage" Grid.Column="1" FontSize="12" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="TxtStatusDetail" Grid.Column="2" FontSize="11" Foreground="#A6ADC8" VerticalAlignment="Center" Margin="8,0,0,0" Cursor="Hand" TextDecorations="Underline" Text="Détails" Visibility="Collapsed" MouseLeftButtonUp="StatusDetail_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Scrollable Content -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,8,0,8">
+            <StackPanel>
+
+                <!-- === Général === -->
+                <TextBlock x:Name="TxtSectionGeneral" Text="👤  Général" Style="{StaticResource SectionTitle}"/>
+                <Border Background="#313244" CornerRadius="8" Padding="16,12" Margin="0,0,0,4">
+                    <StackPanel>
+                        <TextBlock x:Name="TxtLblUserName" Text="Nom d'utilisateur" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="TxtUserName" Style="{StaticResource FieldInput}" Margin="0,0,0,12"/>
+
+                        <TextBlock x:Name="TxtLblLanguage" Text="Langue" Style="{StaticResource FieldLabel}"/>
+                        <ComboBox x:Name="CmbLanguage" Style="{StaticResource FieldCombo}" SelectionChanged="CmbLanguage_SelectionChanged">
+                            <ComboBoxItem Content="Français" Tag="fr"/>
+                            <ComboBoxItem Content="English" Tag="en"/>
+                            <ComboBoxItem Content="العربية" Tag="ar"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- === Connexion Serveur === -->
+                <TextBlock x:Name="TxtSectionServer" Text="🌐  Connexion Serveur" Style="{StaticResource SectionTitle}"/>
+                <Border Background="#313244" CornerRadius="8" Padding="16,12" Margin="0,0,0,4">
+                    <StackPanel>
+                        <TextBlock x:Name="TxtLblServerUrl" Text="URL du serveur" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="TxtServerUrl" Style="{StaticResource FieldInput}" Margin="0,0,0,0" IsReadOnly="True" Foreground="#7F849C"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- === Heures de travail === -->
+                <TextBlock x:Name="TxtSectionWorkHours" Text="🕒  Heures de travail" Style="{StaticResource SectionTitle}"/>
+                <Border Background="#313244" CornerRadius="8" Padding="16,12" Margin="0,0,0,4">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="TxtLblWorkStartTime" Grid.Column="0" Text="Heure de début" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="TxtWorkStartTime" Grid.Column="1" Style="{StaticResource FieldInput}" HorizontalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="TxtLblWorkEndTime" Grid.Column="0" Text="Heure de fin" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="TxtWorkEndTime" Grid.Column="1" Style="{StaticResource FieldInput}" HorizontalContentAlignment="Center"/>
+                        </Grid>
+                        
+                        <TextBlock x:Name="TxtLblWorkDays" Text="Jours de travail" Style="{StaticResource FieldLabel}" Margin="0,4,0,8"/>
+                        <WrapPanel x:Name="PnlWorkDays" Orientation="Horizontal">
+                            <CheckBox x:Name="ChbSun" Content="Dim" Margin="0,0,10,0" Foreground="#CDD6F4" Tag="Sunday"/>
+                            <CheckBox x:Name="ChbMon" Content="Lun" Margin="0,0,10,0" Foreground="#CDD6F4" Tag="Monday"/>
+                            <CheckBox x:Name="ChbTue" Content="Mar" Margin="0,0,10,0" Foreground="#CDD6F4" Tag="Tuesday"/>
+                            <CheckBox x:Name="ChbWed" Content="Mer" Margin="0,0,10,0" Foreground="#CDD6F4" Tag="Wednesday"/>
+                            <CheckBox x:Name="ChbThu" Content="Jeu" Margin="0,0,10,0" Foreground="#CDD6F4" Tag="Thursday"/>
+                            <CheckBox x:Name="ChbFri" Content="Ven" Margin="0,0,10,0" Foreground="#CDD6F4" Tag="Friday"/>
+                            <CheckBox x:Name="ChbSat" Content="Sam" Margin="0,0,0,0" Foreground="#CDD6F4" Tag="Saturday"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- === Notification Schedules === -->
+                <TextBlock x:Name="TxtSectionSchedules" Text="🔔  Planification des notifications" Style="{StaticResource SectionTitle}"/>
+                <Border x:Name="SchedulesSection" Background="#313244" CornerRadius="8" Padding="16,12" Margin="0,0,0,4">
+                    <StackPanel>
+                        <!-- Server mode overlay text -->
+                        <TextBlock x:Name="TxtScheduleServerInfo" Text="⬇ Paramètres gérés par le serveur" FontSize="11" Foreground="#A6E3A1" Margin="0,0,0,8" Visibility="Collapsed"/>
+
+                        <!-- Hydration -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ChkSchedHydration" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtSchedHydration" Grid.Column="1" Text="💧 Hydratation" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                            <TextBlock Grid.Column="2" Text="" Style="{StaticResource FieldLabel}" Margin="0,0,4,0"/>
+                            <TextBox x:Name="TxtSchedHydrationMin" Grid.Column="3" Style="{StaticResource ScheduleInput}"/>
+                            <TextBlock x:Name="TxtSchedHydrationUnit" Grid.Column="4" Text="min" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                        </Grid>
+                        <!-- Visual Break -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ChkSchedVisual" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtSchedVisual" Grid.Column="1" Text="👀 Pause visuelle" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                            <TextBlock Grid.Column="2" Text="" Style="{StaticResource FieldLabel}" Margin="0,0,4,0"/>
+                            <TextBox x:Name="TxtSchedVisualMin" Grid.Column="3" Style="{StaticResource ScheduleInput}"/>
+                            <TextBlock x:Name="TxtSchedVisualUnit" Grid.Column="4" Text="min" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                        </Grid>
+                        <!-- Stretching -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ChkSchedStretch" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtSchedStretch" Grid.Column="1" Text="🤸 Étirements" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                            <TextBlock Grid.Column="2" Text="" Style="{StaticResource FieldLabel}" Margin="0,0,4,0"/>
+                            <TextBox x:Name="TxtSchedStretchMin" Grid.Column="3" Style="{StaticResource ScheduleInput}"/>
+                            <TextBlock x:Name="TxtSchedStretchUnit" Grid.Column="4" Text="min" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                        </Grid>
+                        <!-- Active Break -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ChkSchedActive" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtSchedActive" Grid.Column="1" Text="🚶 Pause active" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                            <TextBlock Grid.Column="2" Text="" Style="{StaticResource FieldLabel}" Margin="0,0,4,0"/>
+                            <TextBox x:Name="TxtSchedActiveMin" Grid.Column="3" Style="{StaticResource ScheduleInput}"/>
+                            <TextBlock x:Name="TxtSchedActiveUnit" Grid.Column="4" Text="min" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                        </Grid>
+                        <!-- Breathing -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ChkSchedBreathing" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtSchedBreathing" Grid.Column="1" Text="🧘 Respiration" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                            <TextBlock Grid.Column="2" Text="" Style="{StaticResource FieldLabel}" Margin="0,0,4,0"/>
+                            <TextBox x:Name="TxtSchedBreathingMin" Grid.Column="3" Style="{StaticResource ScheduleInput}"/>
+                            <TextBlock x:Name="TxtSchedBreathingUnit" Grid.Column="4" Text="min" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                        </Grid>
+                        <!-- Health Tip -->
+                        <Grid Margin="0,0,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ChkSchedHealth" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtSchedHealth" Grid.Column="1" Text="🏥 Conseil santé" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                            <TextBlock Grid.Column="2" Text="" Style="{StaticResource FieldLabel}" Margin="0,0,4,0"/>
+                            <TextBox x:Name="TxtSchedHealthMin" Grid.Column="3" Style="{StaticResource ScheduleInput}"/>
+                            <TextBlock x:Name="TxtSchedHealthUnit" Grid.Column="4" Text="min" Style="{StaticResource FieldLabel}" Margin="4,0,0,0"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- === Animations === -->
+                <TextBlock x:Name="TxtSectionAnimations" Text="🎬  Animations" Style="{StaticResource SectionTitle}"/>
+                <Border Background="#313244" CornerRadius="8" Padding="16,12" Margin="0,0,0,4">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="TxtLblStretchScale" Grid.Column="0" Text="Échelle étirements" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="TxtStretchScale" Grid.Column="1" Style="{StaticResource FieldInput}" HorizontalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="TxtLblActiveBreakScale" Grid.Column="0" Text="Échelle pause active" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="TxtActiveBreakScale" Grid.Column="1" Style="{StaticResource FieldInput}" HorizontalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="TxtLblStartDelay" Grid.Column="0" Text="Délai de démarrage (sec)" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="TxtStartDelay" Grid.Column="1" Style="{StaticResource FieldInput}" HorizontalContentAlignment="Center"/>
+                        </Grid>
+
+                        <CheckBox x:Name="ChkOverrideServer" Foreground="#A6ADC8" FontSize="12" Margin="0,4,0,0">
+                            <TextBlock x:Name="TxtLblOverrideServer" Text="Bloquer la synchronisation avec le serveur" Foreground="#A6ADC8" FontSize="12"/>
+                        </CheckBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- === Accessibilité === -->
+                <TextBlock x:Name="TxtSectionAccessibility" Text="🔊  Accessibilité" Style="{StaticResource SectionTitle}"/>
+                <Border Background="#313244" CornerRadius="8" Padding="16,12" Margin="0,0,0,4">
+                    <StackPanel>
+                        <CheckBox x:Name="ChkTtsEnabled" Foreground="#A6ADC8" FontSize="12" Margin="0,4,0,0">
+                            <TextBlock x:Name="TxtLblTtsEnabled" Text="Lecture vocale des notifications (TTS)" Foreground="#A6ADC8" FontSize="12"/>
+                        </CheckBox>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Footer Buttons -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button x:Name="BtnCancel" Content="Annuler" Style="{StaticResource SecondaryButton}" Click="Cancel_Click" Margin="0,0,10,0"/>
+            <Button x:Name="BtnSave" Content="Enregistrer" Style="{StaticResource PrimaryButton}" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

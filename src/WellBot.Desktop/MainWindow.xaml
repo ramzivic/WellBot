@@ -1,0 +1,30 @@
+<Window x:Class="WellBot.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:local="clr-namespace:WellBot.Desktop"
+        mc:Ignorable="d"
+        Title="{Binding Title}" 
+        Height="0" Width="0" 
+        WindowStyle="None" 
+        ShowInTaskbar="False" 
+        Visibility="Hidden">
+    <Grid>
+        <tb:TaskbarIcon x:Name="NotifyIcon"
+                        ToolTipText="{Binding TrayTooltipText}">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{Binding MenuOpenDashboardText}" FontWeight="Bold" Command="{Binding OpenCommand}" />
+                    <Separator />
+                    <MenuItem Header="{Binding MenuSettingsText}" Command="{Binding SettingsCommand}" />
+                    <MenuItem Header="{Binding MenuChangeAvatarText}" Command="{Binding ChangeAvatarCommand}" />
+                    <MenuItem Header="{Binding MenuDndText}" IsCheckable="True" IsChecked="{Binding IsDndActive, Mode=TwoWay}" />
+                    <Separator />
+                    <MenuItem Header="{Binding MenuQuitText}" Command="{Binding ExitCommand}" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+    </Grid>
+</Window>

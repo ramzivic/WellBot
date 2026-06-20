@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="0" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>Bienvenue sur WellBot</value>
+  </data>
+  <data name="ChooseAvatar" xml:space="preserve">
+    <value>Choisissez votre avatar</value>
+  </data>
+  <data name="IUnderstand" xml:space="preserve">
+    <value>J'ai compris ✓</value>
+  </data>
+  <data name="MenuOpenDashboard" xml:space="preserve">
+    <value>Ouvrir le Tableau de Bord</value>
+  </data>
+  <data name="MenuSettings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="MenuChangeAvatar" xml:space="preserve">
+    <value>Changer d'avatar</value>
+  </data>
+  <data name="MenuDnd" xml:space="preserve">
+    <value>Mode Ne Pas Déranger</value>
+  </data>
+  <data name="MenuQuit" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
+  <data name="TrayTooltip" xml:space="preserve">
+    <value>WellBot - Assistant Bien-être</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>⚙ Paramètres</value>
+  </data>
+  <data name="SettingsGeneral" xml:space="preserve">
+    <value>👤 Général</value>
+  </data>
+  <data name="SettingsUserName" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="SettingsLanguage" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="SettingsAnimations" xml:space="preserve">
+    <value>🎬 Animations</value>
+  </data>
+  <data name="SettingsStretchScale" xml:space="preserve">
+    <value>Échelle étirements</value>
+  </data>
+  <data name="SettingsActiveBreakScale" xml:space="preserve">
+    <value>Échelle pause active</value>
+  </data>
+  <data name="SettingsStartDelay" xml:space="preserve">
+    <value>Délai de démarrage (sec)</value>
+  </data>
+  <data name="SettingsOverrideServer" xml:space="preserve">
+    <value>Bloquer la synchronisation avec le serveur</value>
+  </data>
+  <data name="SettingsCancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="SettingsSave" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="AvatarWelcome" xml:space="preserve">
+    <value>Bienvenue sur WellBot</value>
+  </data>
+  <data name="AvatarSubWelcome" xml:space="preserve">
+    <value>Votre compagnon bien-être au travail.</value>
+  </data>
+  <data name="AvatarStartConfig" xml:space="preserve">
+    <value>Commencer la configuration</value>
+  </data>
+  <data name="AvatarHello" xml:space="preserve">
+    <value>Bonjour, </value>
+  </data>
+  <data name="AvatarLetsCustomize" xml:space="preserve">
+    <value>Personnalisons votre assistant.</value>
+  </data>
+  <data name="AvatarNameQuestion" xml:space="preserve">
+    <value>Comment souhaitez-vous être appelé ?</value>
+  </data>
+  <data name="AvatarChoose" xml:space="preserve">
+    <value>Choisissez votre avatar :</value>
+  </data>
+  <data name="AvatarLetsGo" xml:space="preserve">
+    <value>C'est parti !</value>
+  </data>
+  <data name="SettingsServerConn" xml:space="preserve">
+    <value>🌐 Connexion Serveur</value>
+  </data>
+  <data name="SettingsServerUrl" xml:space="preserve">
+    <value>URL du serveur</value>
+  </data>
+  <data name="SettingsSchedules" xml:space="preserve">
+    <value>🔔 Planification des notifications</value>
+  </data>
+  <data name="SettingsScheduleServerInfo" xml:space="preserve">
+    <value>⬇ Paramètres gérés par le serveur</value>
+  </data>
+  <data name="SettingsAccessibility" xml:space="preserve">
+    <value>🔊 Accessibilité</value>
+  </data>
+  <data name="SettingsTtsEnabled" xml:space="preserve">
+    <value>Lecture vocale des notifications (TTS)</value>
+  </data>
+  <data name="StatusConnected" xml:space="preserve">
+    <value>Connecté au serveur Admin</value>
+  </data>
+  <data name="StatusOffline" xml:space="preserve">
+    <value>Hors ligne (utilisation des horaires locaux)</value>
+  </data>
+  <data name="StatusDetails" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="SchedHydration" xml:space="preserve">
+    <value>💧 Hydratation</value>
+  </data>
+  <data name="SchedVisual" xml:space="preserve">
+    <value>👀 Pause visuelle</value>
+  </data>
+  <data name="SchedStretch" xml:space="preserve">
+    <value>🤸 Étirements</value>
+  </data>
+  <data name="SchedActive" xml:space="preserve">
+    <value>🚶 Pause active</value>
+  </data>
+  <data name="SchedBreathing" xml:space="preserve">
+    <value>🧘 Respiration</value>
+  </data>
+  <data name="SchedHealth" xml:space="preserve">
+    <value>🏥 Conseil santé</value>
+  </data>
+  <data name="SchedUnitMin" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="SettingsWorkHours" xml:space="preserve">
+    <value>🕒 Heures de travail</value>
+  </data>
+  <data name="SettingsWorkStartTime" xml:space="preserve">
+    <value>Heure de début</value>
+  </data>
+  <data name="SettingsWorkEndTime" xml:space="preserve">
+    <value>Heure de fin</value>
+  </data>
+  <data name="SettingsWorkDays" xml:space="preserve">
+    <value>Jours de travail</value>
+  </data>
+  <data name="DaySun" xml:space="preserve">
+    <value>Dim</value>
+  </data>
+  <data name="DayMon" xml:space="preserve">
+    <value>Lun</value>
+  </data>
+  <data name="DayTue" xml:space="preserve">
+    <value>Mar</value>
+  </data>
+  <data name="DayWed" xml:space="preserve">
+    <value>Mer</value>
+  </data>
+  <data name="DayThu" xml:space="preserve">
+    <value>Jeu</value>
+  </data>
+  <data name="DayFri" xml:space="preserve">
+    <value>Ven</value>
+  </data>
+  <data name="DaySat" xml:space="preserve">
+    <value>Sam</value>
+  </data>
+  <data name="InvalidTimeFormat" xml:space="preserve">
+    <value>Format d'heure invalide (utilisez HH:mm)</value>
+  </data>
+</root>

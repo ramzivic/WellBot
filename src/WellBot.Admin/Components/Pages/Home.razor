@@ -1,0 +1,226 @@
+@page "/"
+@implements IDisposable
+@using WellBot.Admin.Data
+@using Microsoft.EntityFrameworkCore
+@using System.Threading
+@using WellBot.Shared.Enums
+@inject AppDbContext Db
+@inject WellBot.Admin.Services.SimpleLocalizer Loc
+@inject IConfiguration Config
+
+<PageTitle>@Loc["DashboardTitle"]</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">@Loc["DashboardTitle"]</h1>
+    <div style="width: 200px;">
+        <select class="form-select" @bind="selectedDays" @bind:after="LoadDataAsync">
+            @for (int i = 1; i <= maxRetentionDays; i++)
+            {
+                <option value="@i">@string.Format(Loc["LastXDays"], i)</option>
+            }
+        </select>
+    </div>
+</div>
+
+@if (summary == null)
+{
+    <p><em>@Loc["Loading"]</em></p>
+}
+else
+{
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@Loc["ActiveMachines"]</h5>
+                    <p class="display-6">@summary.UniqueMachines</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@Loc["NotificationsDisplayed"]</h5>
+                    <p class="display-6">@summary.NotificationsDisplayed</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@Loc["Acknowledged"]</h5>
+                    <p class="display-6">@summary.NotificationsAcknowledged</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@Loc["EngagementRate"]</h5>
+                    <p class="display-6">@summary.EngagementRate%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">@Loc["EngagementByType"]</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>@Loc["Type"]</th>
+                                <th>@Loc["Displayed"]</th>
+                                <th>@Loc["Acknowledged"]</th>
+                                <th>@Loc["Rate"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var stat in engagementStats)
+                            {
+                                <tr>
+                                    <td>@stat.Type</td>
+                                    <td>@stat.Displayed</td>
+                                    <td>@stat.Acknowledged</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: @(stat.Rate)%" aria-valuenow="@stat.Rate" aria-valuemin="0" aria-valuemax="100">@stat.Rate%</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">@Loc["RecentEvents"]</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var ev in recentEvents)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>@ev.NotificationType</strong> - @ev.Action
+                                    <div class="small text-muted">@ev.MachineId</div>
+                                </div>
+                                <span class="badge bg-secondary rounded-pill">@ev.Timestamp.ToString("HH:mm")</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private SummaryData? summary;
+    private List<EngagementStat> engagementStats = new();
+    private List<WellBot.Admin.Entities.AnalyticsEventEntity> recentEvents = new();
+    private int selectedDays = 7;
+    private int maxRetentionDays = 7;
+    private PeriodicTimer? _timer;
+    private SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+
+    protected override async Task OnInitializedAsync()
+    {
+        maxRetentionDays = Config.GetValue<int>("Analytics:RetentionDays", 7);
+        if (selectedDays > maxRetentionDays) selectedDays = maxRetentionDays;
+        await LoadDataAsync();
+
+        _timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+        _ = UpdateLoopAsync();
+    }
+
+    private async Task UpdateLoopAsync()
+    {
+        try
+        {
+            while (await _timer!.WaitForNextTickAsync())
+            {
+                await LoadDataAsync();
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException) { }
+    }
+
+    private async Task LoadDataAsync()
+    {
+        await _semaphore.WaitAsync();
+        try 
+        {
+            engagementStats.Clear();
+            var since = DateTime.UtcNow.AddDays(-selectedDays);
+
+            var totalEvents = await Db.AnalyticsEvents.CountAsync(e => e.Timestamp >= since);
+            var uniqueMachines = await Db.AnalyticsEvents.Where(e => e.Timestamp >= since).Select(e => e.MachineId).Distinct().CountAsync();
+            var displayed = await Db.AnalyticsEvents.CountAsync(e => e.Timestamp >= since && e.Action == AnalyticsAction.Displayed);
+            var acknowledged = await Db.AnalyticsEvents.CountAsync(e => e.Timestamp >= since && e.Action == AnalyticsAction.Acknowledged);
+            var rate = displayed > 0 ? Math.Round((double)acknowledged / displayed * 100, 1) : 0;
+
+            summary = new SummaryData 
+            { 
+                UniqueMachines = uniqueMachines, 
+                NotificationsDisplayed = displayed, 
+                NotificationsAcknowledged = acknowledged, 
+                EngagementRate = rate 
+            };
+
+            var engagementByType = await Db.AnalyticsEvents
+                .Where(e => e.Timestamp >= since && (e.Action == AnalyticsAction.Displayed || e.Action == AnalyticsAction.Acknowledged))
+                .GroupBy(e => e.NotificationType)
+                .Select(g => new EngagementStat
+                {
+                    Type = g.Key.ToString(),
+                    Displayed = g.Count(e => e.Action == AnalyticsAction.Displayed),
+                    Acknowledged = g.Count(e => e.Action == AnalyticsAction.Acknowledged)
+                })
+                .ToListAsync();
+
+            foreach (var stat in engagementByType)
+            {
+                stat.Rate = stat.Displayed > 0 ? Math.Round((double)stat.Acknowledged / stat.Displayed * 100, 1) : 0;
+                engagementStats.Add(stat);
+            }
+
+            var recentEventsLimit = Config.GetValue<int>("Analytics:RecentEventsLimit", 10);
+            recentEvents = await Db.AnalyticsEvents
+                .OrderByDescending(e => e.Timestamp)
+                .Take(recentEventsLimit)
+                .ToListAsync();
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
+    }
+
+    private class SummaryData
+    {
+        public int UniqueMachines { get; set; }
+        public int NotificationsDisplayed { get; set; }
+        public int NotificationsAcknowledged { get; set; }
+        public double EngagementRate { get; set; }
+    }
+
+    private class EngagementStat
+    {
+        public string Type { get; set; } = "";
+        public int Displayed { get; set; }
+        public int Acknowledged { get; set; }
+        public double Rate { get; set; }
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+        _semaphore?.Dispose();
+    }
+}

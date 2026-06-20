@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="0" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>مرحباً بك في WellBot</value>
+  </data>
+  <data name="ChooseAvatar" xml:space="preserve">
+    <value>اختر شخصيتك الرمزية</value>
+  </data>
+  <data name="IUnderstand" xml:space="preserve">
+    <value>فهمت ✓</value>
+  </data>
+  <data name="MenuOpenDashboard" xml:space="preserve">
+    <value>فتح لوحة التحكم</value>
+  </data>
+  <data name="MenuSettings" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="MenuChangeAvatar" xml:space="preserve">
+    <value>تغيير الصورة الرمزية</value>
+  </data>
+  <data name="MenuDnd" xml:space="preserve">
+    <value>وضع عدم الإزعاج</value>
+  </data>
+  <data name="MenuQuit" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="TrayTooltip" xml:space="preserve">
+    <value>WellBot - مساعد الرفاهية</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>⚙ الإعدادات</value>
+  </data>
+  <data name="SettingsGeneral" xml:space="preserve">
+    <value>👤 عام</value>
+  </data>
+  <data name="SettingsUserName" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="SettingsLanguage" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="SettingsAnimations" xml:space="preserve">
+    <value>🎬 رسوم متحركة</value>
+  </data>
+  <data name="SettingsStretchScale" xml:space="preserve">
+    <value>مقياس التمدد</value>
+  </data>
+  <data name="SettingsActiveBreakScale" xml:space="preserve">
+    <value>مقياس الاستراحة النشطة</value>
+  </data>
+  <data name="SettingsStartDelay" xml:space="preserve">
+    <value>تأخير البدء (ثانية)</value>
+  </data>
+  <data name="SettingsOverrideServer" xml:space="preserve">
+    <value>تجاوز إعدادات الخادم</value>
+  </data>
+  <data name="SettingsCancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="SettingsSave" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="AvatarWelcome" xml:space="preserve">
+    <value>مرحباً بك في WellBot</value>
+  </data>
+  <data name="AvatarSubWelcome" xml:space="preserve">
+    <value>رفيق صحتك في العمل.</value>
+  </data>
+  <data name="AvatarStartConfig" xml:space="preserve">
+    <value>بدء التكوين</value>
+  </data>
+  <data name="AvatarHello" xml:space="preserve">
+    <value>مرحباً، </value>
+  </data>
+  <data name="AvatarLetsCustomize" xml:space="preserve">
+    <value>دعنا نخصص مساعدك.</value>
+  </data>
+  <data name="AvatarNameQuestion" xml:space="preserve">
+    <value>كيف تود أن نناديك؟</value>
+  </data>
+  <data name="AvatarChoose" xml:space="preserve">
+    <value>اختر شخصيتك الرمزية:</value>
+  </data>
+  <data name="AvatarLetsGo" xml:space="preserve">
+    <value>لننطلق!</value>
+  </data>
+  <data name="SettingsServerConn" xml:space="preserve">
+    <value>🌐 اتصال الخادم</value>
+  </data>
+  <data name="SettingsServerUrl" xml:space="preserve">
+    <value>رابط الخادم</value>
+  </data>
+  <data name="SettingsSchedules" xml:space="preserve">
+    <value>🔔 جدولة الإشعارات</value>
+  </data>
+  <data name="SettingsScheduleServerInfo" xml:space="preserve">
+    <value>⬇ إعدادات مدارة من قبل الخادم</value>
+  </data>
+  <data name="SettingsAccessibility" xml:space="preserve">
+    <value>🔊 إمكانية الوصول</value>
+  </data>
+  <data name="SettingsTtsEnabled" xml:space="preserve">
+    <value>قراءة الإشعارات صوتياً (TTS)</value>
+  </data>
+  <data name="StatusConnected" xml:space="preserve">
+    <value>متصل بخادم الإدارة</value>
+  </data>
+  <data name="StatusOffline" xml:space="preserve">
+    <value>غير متصل (استخدام الجداول المحلية)</value>
+  </data>
+  <data name="StatusDetails" xml:space="preserve">
+    <value>تفاصيل</value>
+  </data>
+  <data name="SchedHydration" xml:space="preserve">
+    <value>💧 ترطيب</value>
+  </data>
+  <data name="SchedVisual" xml:space="preserve">
+    <value>👀 راحة بصرية</value>
+  </data>
+  <data name="SchedStretch" xml:space="preserve">
+    <value>🤸 تمارين إطالة</value>
+  </data>
+  <data name="SchedActive" xml:space="preserve">
+    <value>🚶 استراحة نشطة</value>
+  </data>
+  <data name="SchedBreathing" xml:space="preserve">
+    <value>🧘 تنفس</value>
+  </data>
+  <data name="SchedHealth" xml:space="preserve">
+    <value>🏥 نصيحة صحية</value>
+  </data>
+  <data name="SchedUnitMin" xml:space="preserve">
+    <value>دقيقة</value>
+  </data>
+  <data name="SettingsWorkHours" xml:space="preserve">
+    <value>🕒 ساعات العمل</value>
+  </data>
+  <data name="SettingsWorkStartTime" xml:space="preserve">
+    <value>وقت البدء</value>
+  </data>
+  <data name="SettingsWorkEndTime" xml:space="preserve">
+    <value>وقت الانتهاء</value>
+  </data>
+  <data name="SettingsWorkDays" xml:space="preserve">
+    <value>أيام العمل</value>
+  </data>
+  <data name="DaySun" xml:space="preserve">
+    <value>الأحد</value>
+  </data>
+  <data name="DayMon" xml:space="preserve">
+    <value>الإثنين</value>
+  </data>
+  <data name="DayTue" xml:space="preserve">
+    <value>الثلاثاء</value>
+  </data>
+  <data name="DayWed" xml:space="preserve">
+    <value>الأربعاء</value>
+  </data>
+  <data name="DayThu" xml:space="preserve">
+    <value>الخميس</value>
+  </data>
+  <data name="DayFri" xml:space="preserve">
+    <value>الجمعة</value>
+  </data>
+  <data name="DaySat" xml:space="preserve">
+    <value>السبت</value>
+  </data>
+  <data name="InvalidTimeFormat" xml:space="preserve">
+    <value>تنسيق الوقت غير صالح (استخدم HH:mm)</value>
+  </data>
+</root>
